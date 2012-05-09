@@ -8,12 +8,10 @@
 
 #import "SecondViewController.h"
 
-@interface SecondViewController ()
-
-@end
-
 @implementation SecondViewController
+
 @synthesize webView;
+@synthesize dismissButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -27,13 +25,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] 
-                                     initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-                                     target:self
-                                     action:@selector(cancel:)];
-    self.navigationItem.leftBarButtonItem = cancelButton;
-    [cancelButton release];
     
     // If the webView's delegate is NOT set, then the SecondViewController instances will 
     // be deallocated as expected when the modal view controller is dismissed (though, of
@@ -59,10 +50,10 @@
 
 - (void)viewDidUnload
 {
+    self.webView.delegate = nil;
     [self setWebView:nil];
+    [self setDismissButton:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -73,12 +64,13 @@
 - (void)dealloc
 {
     NSLog(@"Deallocating SecondViewController");
+    self.webView.delegate = nil;
     [webView release];
+    [dismissButton release];
     [super dealloc];
 }
 
-
-- (IBAction)cancel:(id)aSender
+- (IBAction)dismiss:(id)sender
 {
     [self dismissModalViewControllerAnimated:YES];
 }

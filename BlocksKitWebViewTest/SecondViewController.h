@@ -9,6 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface SecondViewController : UIViewController <UIWebViewDelegate>
+
 @property (retain, nonatomic) IBOutlet UIWebView *webView;
+@property (retain, nonatomic) IBOutlet UIButton *dismissButton;
+
+- (IBAction)dismiss:(id)sender;
 
 @end

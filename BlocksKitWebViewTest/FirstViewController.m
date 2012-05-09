@@ -25,15 +25,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
 }
 
 - (void)viewDidUnload
 {
     [self setButton:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -48,13 +45,9 @@
 
 - (IBAction)tapMe:(id)sender
 {
-    SecondViewController *vc = [[SecondViewController alloc] init];
-    
-    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
+    SecondViewController *vc = [[SecondViewController alloc] init];    
+    [self presentModalViewController:vc animated:YES];
     [vc release];
-    
-    [self presentModalViewController:nc animated:YES];
-    [nc release];
 }
 
 @end
