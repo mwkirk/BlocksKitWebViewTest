@@ -35,6 +35,22 @@
     self.navigationItem.leftBarButtonItem = cancelButton;
     [cancelButton release];
     
+    // If the webView's delegate is NOT set, then the SecondViewController instances will 
+    // be deallocated as expected when the modal view controller is dismissed (though, of
+    // course, the didFinishLoadBlock won't be called).
+    //
+    // If the delegate is set, the block will be called, but the SecondViewController
+    // instances will not be deallocated when the modal view controller is dismissed.
+    // This can be seen easily by profiling with the Allocations Instrument (filter by
+    // "viewcontroller").
+    
+    // Toggle behavior by un/commenting the line below
+    self.webView.delegate = self;
+    
+    self.webView.didFinishLoadBlock = ^(UIWebView *aWebView) {
+        NSLog(@"Finished load");
+    };
+    
     NSString *path = [[NSBundle mainBundle] pathForResource:@"foo.html" ofType:nil];
     NSURL *url = [NSURL fileURLWithPath:path];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
@@ -54,7 +70,9 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
+    NSLog(@"Deallocating SecondViewController");
     [webView release];
     [super dealloc];
 }
